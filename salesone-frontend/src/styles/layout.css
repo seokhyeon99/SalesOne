@@ -1,0 +1,25 @@
+:root {
+  /* Layout variables */
+  --header-height: 3.5rem;
+  --sidebar-width: 16rem;
+  --sidebar-collapsed-width: 4rem;
+  
+  /* Sidebar colors can be customized if needed */
+  --sidebar-background: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 16rem; /* Keep the width for slide-in functionality */
+    --sidebar-collapsed-width: 0; /* Fully hide when collapsed on mobile */
+  }
+}
+
+/* Transition effects */
+.sidebar-transition {
+  transition: all 0.2s ease-in-out;
+} 

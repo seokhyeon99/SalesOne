@@ -1,0 +1,37 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+## CLI guide
+### Taskmaster
+taskmaster shold be runned in the Main Directory!!!
+
+### Frontend
+- Frontend is located in ./salesone-frontend
+- You can run the frontend server via `pnpm run dev`
+- You can add shadCn ui components via `pnpm dlx shadcn@latest add {component name}` and list can be checking in https://ui.shadcn.com/docs/components/
+- Use ./reference as a design and component reference.
+
+### Backend
+- Python environment is using virtual environment located in ./salesone-backend/venv and can be activated via ./salesone-backend/venv/bin/activate
+- Before running command always check current working directory via `pwd` to avoid directory issues
+- You can run the backend server via `python manage.py runserver 0.0.0.0:8003`
+- After updating backend api endpoint always update api-endpoints.md located in ./salesone-backend/documents/api-endpoints.md for the developers to read
+
+## Framework
+### Frontend
+- NextJS
+- ShadCn: If component is needed install using `pnpm dlx shadcn@latest add COMPONENT`
+- TailwindCss
+
+### Backend
+Backend uses venv in /salesone-backend. Before running a script activate the virtual environment first
+- Django
+- Django Rest Framework
+- Postgres
+- Redis
+- Celery

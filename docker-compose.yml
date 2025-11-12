@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./salesone-backend/.env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-salesone}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and Celery
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Django backend
+  backend:
+    build:
+      context: ./salesone-backend
+      target: development
+    volumes:
+      - ./salesone-backend:/app
+      - backend_static:/app/staticfiles
+      - backend_media:/app/mediafiles
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./salesone-backend/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-salesone}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    command: python manage.py runserver 0.0.0.0:8003
+
+  # Celery worker
+  celery:
+    build:
+      context: ./salesone-backend
+      target: development
+    volumes:
+      - ./salesone-backend:/app
+    env_file:
+      - ./salesone-backend/.env
+    depends_on:
+      - backend
+      - redis
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-salesone}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    command: celery -A salesone worker -l INFO
+
+  # Celery beat for scheduled tasks
+  celery-beat:
+    build:
+      context: ./salesone-backend
+      target: development
+    volumes:
+      - ./salesone-backend:/app
+    env_file:
+      - ./salesone-backend/.env
+    depends_on:
+      - backend
+      - redis
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-salesone}
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    command: celery -A salesone beat -l INFO
+
+  # Next.js frontend
+  frontend:
+    build:
+      context: ./salesone-frontend
+      target: development
+    volumes:
+      - ./salesone-frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8003/api
+    depends_on:
+      - backend
+    command: npm run dev
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_static:
+  backend_media: 

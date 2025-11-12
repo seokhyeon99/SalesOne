@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ ## Language Requirements
+
+- **User Interface Language**: Korean (한국어)
+  - All visible text in the UI must be in Korean
+  - This includes:
+    - Menu items
+    - Button labels
+    - Form labels and placeholders
+    - Error messages
+    - Headers and titles
+    - Any other user-facing text
+
+- **Code Comments/Documentation**:
+  - Code comments can be in English for developer clarity
+  - Variable names should be in English for standard coding practices
+  - Internal documentation can be in English
+
+- **Translation Process**:
+  - When adapting components from English sources, ensure all user-visible text is translated to Korean
+  - Maintain proper Korean grammar and natural expressions
+  - Consider Korean language text length in UI design (may differ from English)
+
+- **Example**:
+  ```tsx
+  // ✅ DO: Translate user-facing content
+  <Button variant="ghost" className="w-full justify-start" asChild>
+    <Link href="/products">
+      <Icon className="mr-2 h-4 w-4" />
+      상품
+    </Link>
+  </Button>
+
+  // ❌ DON'T: Keep English in the UI
+  <Button variant="ghost" className="w-full justify-start" asChild>
+    <Link href="/products">
+      <Icon className="mr-2 h-4 w-4" />
+      Products
+    </Link>
+  </Button>
+  ``` 
