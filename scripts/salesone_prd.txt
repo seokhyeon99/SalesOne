@@ -1,0 +1,342 @@
+# SalesOne Product Requirements Document
+
+## Overview
+SalesOne is a comprehensive Sales Engagement Platform (SEP) designed to streamline the entire sales process, from lead management to customer relationship management and workflow automation. The platform addresses the fragmented nature of existing CRM and lead generation tools by offering an integrated solution that enhances sales team productivity and effectiveness.
+
+According to market research by Gartner, 87% of sales organizations have adopted SEPs, with 93% considering them critical to success. SalesOne aims to provide a solution with higher daily active users (60% DAU) compared to traditional CRM tools (40-50% DAU).
+
+## Core Features
+
+### Products Management
+- Create, edit, view, and delete product listings with details such as name, pricing plans (one-time, weekly, monthly), price, currency, and descriptions
+- Store product information for future reference in client purchases
+- Enable recommendations of products to potential customers during communication
+
+### Lead Management
+- Import leads from external sources or search within SalesOne's database of 5+ million records
+- Create customized lead lists for targeted campaigns
+- Store comprehensive lead information including business details, contact info, financial data, and more
+- Filter leads based on various parameters like industry, location, and revenue
+
+### Campaign Management
+- Create email campaigns targeting selected lead lists with personalized content
+- Design email templates with customizable variables and LLM-enhanced personalization
+- Track campaign performance including delivery, opens, clicks, and replies
+- Schedule campaigns for optimal sending times
+
+### Opportunity Management
+- Visualize sales pipeline with a Kanban board for potential customers
+- Enrich customer profiles with real-time information from internet sources
+- Track conversions and progress through sales stages
+- Automatically transition converted opportunities to clients
+
+### Client Management
+- Maintain comprehensive client profiles with contact information and interaction history
+- View all client touchpoints in a chronological timeline
+- Store and manage notes, files, emails, and calendar events related to clients
+- Track products purchased and relationship history
+
+### Task Management
+- Organize tasks in a Kanban board with statuses (to-do, in-progress, completed, failed)
+- Create one-time or recurring tasks with due dates
+- Assign tasks to team members
+- Link tasks to automated workflows
+
+### Workflow Automation
+- Create and manage workflows using a node-based visual editor
+- Configure pre-built workflows for common processes (invoice generation, etc.)
+- Design custom workflows with various action types (email, notifications, conditions, delays)
+- Access client variables within workflows for personalized automation
+
+## User Experience
+
+### User Personas
+
+#### Sales Manager
+- Manages sales teams and monitors performance
+- Needs comprehensive dashboards and analytics
+- Focuses on pipeline management and forecasting
+
+#### Sales Representative
+- Engages directly with leads and clients
+- Requires efficient tools for prospecting and follow-up
+- Values time-saving automation and personalization
+
+#### Marketing Specialist
+- Creates and manages email campaigns
+- Analyzes campaign performance
+- Needs tools for lead segmentation and targeting
+
+### Key User Flows
+
+#### Lead Generation and Management
+1. Import leads from external sources or search SalesOne database
+2. Create and organize lead lists based on specific criteria
+3. Enrich lead data with additional information
+4. Track lead interactions and progress
+
+#### Campaign Creation and Execution
+1. Select target lead list
+2. Choose or create email template with personalization
+3. Schedule and launch campaign
+4. Monitor results and analyze performance
+
+#### Client Relationship Management
+1. Track all interactions with clients in a unified timeline
+2. Create and assign tasks related to client management
+3. Store important client documents and notes
+4. Set up automated workflows for recurring client processes
+
+### UI/UX Considerations
+- Clean, minimal interfaces inspired by Notion with generous whitespace
+- Block-based content structure that's flexible and intuitive
+- Contextual controls that appear only when needed
+- Smooth animations and transitions for a polished feel
+- Consistent iconography and typography for clear visual hierarchy
+- Responsive layouts that adapt across devices
+
+## Technical Architecture
+
+### Frontend Technology Stack
+- **Framework**: Next.js for server-side rendering and optimized performance
+- **UI Components**: ShadCN UI for consistent design language
+- **Styling**: TailwindCSS for utility-first CSS
+- **State Management**: React Context API + SWR for data fetching
+- **Authentication**: NextAuth.js for secure user authentication
+- **Form Handling**: React Hook Form with Zod validation
+- **Workflow Builder**: React Flow for node-based visual editing
+- **Email Template Builder**: React Email Editor (Unlayer) for drag-and-drop email design
+
+### Backend Technology Stack
+- **Framework**: Django for robust backend infrastructure
+- **API**: Django Rest Framework for RESTful API endpoints
+- **Database**: PostgreSQL for relational data storage
+- **Caching**: Redis for performance optimization
+- **Task Queue**: Celery for background processing
+- **Search Engine**: PostgreSQL Full-Text Search for efficient querying
+- **Authentication**: JWT for secure token-based authentication
+- **Email Delivery**: SendGrid/Mailgun with tracking capabilities
+- **Workflow Engine**: Custom execution engine with pluggable actions
+
+### Data Models
+
+#### Core Entities
+- **User**: Authentication and profile information
+- **Product**: Product catalog with pricing and details
+- **Lead**: Comprehensive lead information
+- **LeadList**: Collections of leads for targeting
+- **Campaign**: Email campaign configuration and metrics
+- **CampaignTemplate**: Reusable email templates with variables
+- **Opportunity**: Sales pipeline stages for potential customers
+- **Client**: Customer information and relationship data
+- **Task**: Actionable items with assignment and due dates
+- **Workflow**: Process automation configurations
+
+#### Key Relationships
+- Users own multiple leads, campaigns, clients, and workflows
+- Campaigns target multiple lead lists
+- Tasks can be linked to workflows for automation
+- Clients can be associated with multiple products, tasks, and notes
+
+### API Structure
+RESTful API endpoints for all major entities:
+- Authentication endpoints for user management
+- CRUD operations for all data models
+- Specialized endpoints for workflow execution, campaign management
+- Search and filtering capabilities across all resources
+
+### Integration Points
+- Email service providers (SendGrid/Mailgun)
+- External data sources for lead enrichment
+- Calendar systems for scheduling
+- Notification services (Slack, etc.)
+- Webhook handlers for external system integration
+
+## Development Roadmap
+
+### Phase 1: Foundation & Core Functionality
+1. **Project Setup**
+   - Initialize frontend and backend repositories
+   - Configure development environments
+   - Set up CI/CD pipelines
+
+2. **Authentication System**
+   - User registration and login
+   - JWT token management
+   - User profile and settings
+
+3. **Products Module**
+   - Product CRUD operations
+   - Product listing and detail views
+   - Product pricing configuration
+
+4. **Leads Management**
+   - Lead data models and APIs
+   - Lead import functionality
+   - Basic lead list creation
+   - Lead detail views
+
+5. **Client Management**
+   - Client data models and APIs
+   - Client profile views
+   - Basic client interaction tracking
+
+### Phase 2: Advanced Features & Workflow Integration
+
+6. **Campaign System**
+   - Campaign creation and configuration
+   - Email template editor
+   - Campaign scheduling
+   - Basic campaign analytics
+
+7. **Opportunity Pipeline**
+   - Kanban board implementation
+   - Opportunity status management
+   - Conversion tracking
+
+8. **Task Management**
+   - Task creation and assignment
+   - Kanban board for tasks
+   - Due date tracking and notifications
+   - Recurring task configuration
+
+9. **Basic Workflow Engine**
+   - Workflow data models
+   - Simple workflow execution
+   - Pre-built workflow templates
+   - Task-workflow integration
+
+### Phase 3: Enhanced Capabilities & Optimization
+
+10. **Advanced Workflow Builder**
+    - Visual node-based editor
+    - Custom node types
+    - Conditional logic implementation
+    - Workflow testing and debugging tools
+
+11. **Advanced Email Campaigns**
+    - LLM-powered email personalization
+    - Advanced tracking and analytics
+    - A/B testing capabilities
+    - Deliverability optimization
+
+12. **Lead Enrichment & Intelligence**
+    - Automated lead data enrichment
+    - Lead scoring algorithms
+    - Intelligent lead recommendations
+    - Advanced search and filtering
+
+13. **Reporting & Analytics**
+    - Dashboard visualizations
+    - Custom report generation
+    - Performance metrics and KPIs
+    - Export functionality
+
+14. **Integration Ecosystem**
+    - API expansion for third-party integration
+    - Webhook configuration system
+    - External calendar integration
+    - CRM data synchronization
+
+15. **Mobile Optimization**
+    - Responsive design refinement
+    - Performance optimization for mobile
+    - Mobile-specific UX improvements
+    - Progressive web app capabilities
+
+## Logical Dependency Chain
+
+### Foundation Layer (Must be built first)
+1. Authentication system and user management
+2. Database models and core API structure
+3. Basic UI framework and navigation
+
+### Core Business Entities (Build after foundation)
+4. Products module (relatively simple, good first entity)
+5. Lead management (central to platform functionality)
+6. Client management (builds upon lead conversion concept)
+
+### Engagement Tools (Requires core entities)
+7. Campaign system (depends on leads and templates)
+8. Opportunity pipeline (connects leads to clients)
+9. Task management (applies to all entities)
+
+### Automation Layer (Enhances existing functionality)
+10. Basic workflow engine (enhances task management)
+11. Advanced workflow builder (builds on basic workflows)
+12. Integration with email, tasks, and other systems
+
+### Intelligence Layer (Adds value to existing features)
+13. Reporting and analytics (requires data from all modules)
+14. Lead enrichment and scoring (enhances lead management)
+15. Personalization features (enhances campaigns and communication)
+
+## Risks and Mitigations
+
+### Technical Challenges
+
+#### Email Deliverability
+- **Risk**: Email campaigns may face deliverability issues, affecting campaign effectiveness
+- **Mitigation**: Implement proper SPF, DKIM, and DMARC configurations; use email warming strategies; monitor deliverability metrics
+
+#### Database Performance
+- **Risk**: Managing millions of lead records could cause performance issues
+- **Mitigation**: Implement efficient indexing, caching strategies, and pagination; optimize queries; consider sharding for larger deployments
+
+#### Workflow Complexity
+- **Risk**: Visual workflow builder could become difficult to implement and maintain
+- **Mitigation**: Start with simpler workflow models and gradually enhance; use established libraries like React Flow; implement comprehensive testing
+
+### Development Challenges
+
+#### Feature Scope Management
+- **Risk**: Project scope could expand beyond manageable implementation
+- **Mitigation**: Prioritize features based on core user needs; implement MVP approach; use phased development with clear milestones
+
+#### Integration Complexity
+- **Risk**: Multiple system integrations could introduce unexpected challenges
+- **Mitigation**: Create abstraction layers for external services; implement comprehensive error handling; develop with integration testing from the start
+
+#### UX Balance
+- **Risk**: Balancing feature richness with intuitive UX could be challenging
+- **Mitigation**: Follow established design patterns; implement progressive disclosure; conduct regular usability testing
+
+### Business Challenges
+
+#### Market Differentiation
+- **Risk**: Difficulty standing out in crowded SEP market
+- **Mitigation**: Focus on intuitive UX and workflow automation as differentiators; target specific market segments with tailored solutions
+
+#### User Adoption
+- **Risk**: Users may resist switching from existing tools
+- **Mitigation**: Develop easy onboarding processes; provide data migration tools; create comprehensive documentation and training materials
+
+## Appendix
+
+### Email System Architecture
+The email sending system handles all outbound email communications, including:
+- Campaign emails with tracking
+- Notification emails
+- Transactional messages
+
+Key components include:
+- Email service provider integration (SendGrid/Mailgun)
+- Email templating with variable support
+- Tracking mechanisms for opens, clicks, and replies
+- Anti-spam measures and deliverability optimization
+- Queue management for reliable delivery
+
+### Workflow Engine Specifications
+The custom workflow engine enables process automation through:
+- Node Registry: Central registry of available node types
+- Workflow Executor: Executes workflows based on node graph
+- Execution Context: Stores workflow state during execution
+- Built-in Node Types: Email, notifications, conditionals, delays, etc.
+
+### Performance Benchmarks
+Expected system performance metrics:
+- Page load times: <2 seconds
+- API response times: <500ms for standard requests
+- Email throughput: 10,000+ emails per hour
+- Database query performance: <100ms for standard queries
+- Workflow execution: Near real-time for simple workflows 
